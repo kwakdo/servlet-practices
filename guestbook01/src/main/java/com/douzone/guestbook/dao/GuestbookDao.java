@@ -7,11 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.douzone.guestbook.vo.GuestbookVo;
 
 public class GuestbookDao {
-	
+
 	public boolean insert(GuestbookVo vo) {
 		boolean result = false;
 		Connection connection = null;
@@ -21,15 +20,13 @@ public class GuestbookDao {
 			connection = getConnection();
 			
 			String sql =
-				" insert" +
-				"   into guestbook" +
-				" values (null, ?, ?, ?)";
+					"insert into guestbook " +
+					" values(null, ?, ?, ?, now()) ";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getPassword());
 			pstmt.setString(3, vo.getMessage());
-			//pstmt.setString(4, vo.getRegDate());
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -50,6 +47,7 @@ public class GuestbookDao {
 		
 		return result;		
 	}
+	
 	
 	public boolean delete(GuestbookVo vo) {
 		boolean result = false;
@@ -60,15 +58,13 @@ public class GuestbookDao {
 			connection = getConnection();
 			
 			String sql =
-				" delete" +
-				"   from guestbook" +
-				" values (null, ?, ?, ?, ?)";
+					"delete from guestbook" +
+			" where no = ?" +
+			" and password = ?";
 			pstmt = connection.prepareStatement(sql);
 
-			pstmt.setString(1, vo.getName());
+			pstmt.setLong(1, vo.getNo());
 			pstmt.setString(2, vo.getPassword());
-			pstmt.setString(3, vo.getMessage());
-			pstmt.setString(4, vo.getRegDate());
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -89,7 +85,8 @@ public class GuestbookDao {
 		
 		return result;		
 	}
-
+	
+	
 	public List<GuestbookVo> findAll() {
 		List<GuestbookVo> result = new ArrayList<>();
 		Connection connection = null;
@@ -99,32 +96,25 @@ public class GuestbookDao {
 		try {
 			connection = getConnection();
 			
-			//3. SQL 준비
 			String sql =
-				"   select no, _name, password, message, reg_date" +
-				"     from guestbook" + 
-				" order by no desc";
+				"select no, name,date_format(reg_date, '%Y-%m-%d %H:%i:%s'), message" +
+				" from guestbook" + 
+				" order by reg_date desc";
+			
 			pstmt = connection.prepareStatement(sql);
-			
-			//4. Parameter Mapping
-			
-			//5. SQL 실행
 			rs = pstmt.executeQuery();
-			
-			//6. 결과처리
+
 			while(rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
-				String password = rs.getString(3);
+				String reg_Date = rs.getString(3);
 				String message = rs.getString(4);
-				String reg_data = rs.getString(5);
 				
 				GuestbookVo vo = new GuestbookVo();
 				vo.setNo(no);
 				vo.setName(name);
-				vo.setPassword(password);
+				vo.setRegDate(reg_Date);
 				vo.setMessage(message);
-				vo.setRegDate(reg_data);
 				
 				result.add(vo);
 			}
@@ -146,12 +136,12 @@ public class GuestbookDao {
 			}
 		}
 		
-		return result;		
+		return result;
 	}
-	
+
 	private Connection getConnection() throws SQLException {
 		Connection connection = null;
-		
+
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			String url = "jdbc:mysql://192.168.10.42:3306/webdb?charset=utf8";
@@ -159,7 +149,7 @@ public class GuestbookDao {
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		}
-		
+
 		return connection;
-	}	
+	}
 }

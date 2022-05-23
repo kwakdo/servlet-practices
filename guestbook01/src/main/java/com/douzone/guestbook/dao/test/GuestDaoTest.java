@@ -17,7 +17,7 @@ public class GuestDaoTest {
 		vo.setName("Hard");
 		vo.setPassword("1234");
 		vo.setMessage("to complete");
-		vo.setRegDate("2022-05-23");
+		//vo.setRegDate("2022-05-23");
 		
 		new GuestbookDao().insert(vo);
 	}
