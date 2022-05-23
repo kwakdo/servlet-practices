@@ -23,13 +23,13 @@ public class GuestbookDao {
 			String sql =
 				" insert" +
 				"   into guestbook" +
-				" values (null, ?, ?, ?, ?)";
+				" values (null, ?, ?, ?)";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getPassword());
 			pstmt.setString(3, vo.getMessage());
-			pstmt.setString(4, vo.getRegDate());
+			//pstmt.setString(4, vo.getRegDate());
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
