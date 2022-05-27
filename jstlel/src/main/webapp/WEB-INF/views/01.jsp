@@ -13,12 +13,12 @@
 	${fVal }<br/>
 	${bVal }<br/>
 	${sVal }<br/>
-	
-	<h4>값출력</h4>
-	---${obj}---<br/>
+
+	<h4>객체출력</h4>
+	---${obj }---<br/>
 	${user.no }<br/>
 	${user.name }<br/>
-	
+
 	<h4>Map의 값 출력</h4>
 	${m.iVal }<br/>
 	${m.lVal }<br/>
@@ -35,7 +35,7 @@
 	${iVal < 5 }<br/>
 	${obj == null }<br/>
 	${empty obj }<br/>
-	${obj =! null }<br/>
+	${obj != null }<br/>
 	${not empty obj }<br/>
 	
 	<h4>논리 연산</h4>
@@ -45,7 +45,8 @@
 	${iVal == 10 or lVal < 10 }<br/>
 	
 	<h4>요청 파라미터</h4>
-	${param.a + 10 }<br/>
-	${param.email }<br/>
+	${param.a + 10 } <br/>
+	${param.email } <br/>
+	
 </body>
 </html>
