@@ -2,3 +2,4 @@
 
 desc guestbook;
 
+select * from guestbook;
