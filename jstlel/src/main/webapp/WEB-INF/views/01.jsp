@@ -47,6 +47,5 @@
 	<h4>요청 파라미터</h4>
 	${param.a + 10 }<br/>
 	${param.email }<br/>
-	
 </body>
 </html>
